@@ -2,6 +2,7 @@ package ro.pub.cs.systems.eim.lab05.boundedserviceactivity.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -16,10 +17,18 @@ public class BoundedService extends Service {
 
     // TODO: exercise 10a - implement a IBinder public class to provide a reference
     // to the service instance through a getService() public method
-
+    public class BoundedServiceBinder extends Binder {
+        public BoundedService getService() {
+            return BoundedService.this;
+        }
+    }
     // TODO: exercise 10f - override the lifecycle callback method and log a message
     // of the moment they are invoked
-
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d(Constants.TAG, "onCreate() method was invoked");
+    }
     @Override
     public IBinder onBind(Intent intent) {
         Log.d(Constants.TAG, "onBind() method was invoked");
@@ -28,7 +37,7 @@ public class BoundedService extends Service {
 
     public String getMessage() {
         // TODO: exercise 10b - return a random value from the Constants.MESSAGES array list
-        return null;
+        return Constants.MESSAGES.get(random.nextInt(Constants.MESSAGES.size()));
     }
 
 }
